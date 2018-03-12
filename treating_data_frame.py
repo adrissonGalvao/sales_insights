@@ -10,8 +10,9 @@ def treating_csv():
 def product_more_sale_country(df,country):
     df_country =pd.DataFrame(df[(df['Country'] ==country)])
     df_country.drop(['InvoiceDate','UnitPrice','CustomerID','Country','StockCode'],axis=1,inplace=True)
-    list_quantity=df_country.groupby('Quantity').sum()
-    return list_quantity.max()
+    list_quantity=df_country.groupby(['Description']).sum()
+    return list_quantity.idxmax()
 
+        
 df_main=treating_csv()
 print(product_more_sale_country(df_main,"United Kingdom"))
