@@ -11,12 +11,14 @@ def product_more_sale_country(df,country):
     df_country =pd.DataFrame(df[(df['Country'] ==country)])
     df_country.drop(['InvoiceDate','UnitPrice','CustomerID','Country','StockCode'],axis=1,inplace=True)
     list_quantity=df_country.groupby(['Description']).sum()
-    return list_quantity.idxmax()
+    product_mare_sale={'product':list_quantity['Quantity'].idxmax()}
+    return product_mare_sale
 
 def product_more_sale(df):
     df_product=df.drop(['InvoiceDate','UnitPrice','CustomerID','Country','StockCode'],axis=1)
-    list_quantity=df.groupby(['Description']).sum()
-    return list_quantity.max()
+    list_quantity=df_product.groupby(['Description']).sum()
+    product_more_sale_world = {"product":list_quantity['Quantity'].idxmax()}
+    return product_more_sale_world
 
 def best_client(df):
     df_best_client=df.drop(['InvoiceDate','Country','StockCode'],axis=1)
@@ -25,11 +27,11 @@ def best_client(df):
     client_best = df_best_client.groupby(['CustomerID']).sum()
     best_client_price={'CustomerID':client_best['total'].idxmax(),'value_sale':client_best['total'].max()}
     best_client_quantity={'CustomerID':client_best['Quantity'].idxmax(),'value_sale':client_best['Quantity'].max()}
-    best_client = {"bigeer_price":best_client_price,"bigeer_quantity":best_client_quantity}
-    
+    best_client = {"bigger_price":best_client_price,"bigger_quantity":best_client_quantity}
+
     return best_client
 
 df_main=treating_csv()
-product_more_sale_country(df_main,"United Kingdom")
-product_more_sale(df_main)
-best_client(df_main)
+print(product_more_sale_country(df_main,"United Kingdom"))
+print(product_more_sale(df_main))
+print(best_client(df_main))
