@@ -13,6 +13,11 @@ def product_more_sale_country(df,country):
     list_quantity=df_country.groupby(['Description']).sum()
     return list_quantity.idxmax()
 
-        
+def product_more_sale(df):
+    df.drop(['InvoiceDate','UnitPrice','CustomerID','Country','StockCode'],axis=1,inplace=True)
+    list_quantity=df.groupby(['Description']).sum()
+    return list_quantity.max()
+
 df_main=treating_csv()
-print(product_more_sale_country(df_main,"United Kingdom"))
+product_more_sale_country(df_main,"United Kingdom")
+product_more_sale(df_main)
