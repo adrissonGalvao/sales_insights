@@ -36,9 +36,9 @@ def product_sale_date(df,product,dt_begin,dt_end):
     df_sale_product['InvoiceDate']= pd.to_datetime(df['InvoiceDate'])
     df_sale_product['InvoiceDate']= df_sale_product['InvoiceDate'].apply(lambda x: x.strftime('%Y-%m-%d'))
     df_sale_product=pd.DataFrame(df_sale_product[(df_sale_product['StockCode']==product) & ((df_sale_product['InvoiceDate']>=dt_begin) & (df_sale_product['InvoiceDate']<dt_end))])
-    df_sale_product = df_sale_product.groupby('InvoiceDate').sum()
-
+    df_sale_product = df_sale_product.groupby(['InvoiceDate','Description','StockCode']).sum()
     return df_sale_product
+
 df_main=treating_csv()
 
 print(product_more_sale_country(df_main,"United Kingdom"))
