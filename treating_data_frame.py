@@ -11,8 +11,8 @@ def product_more_sale_country(df,country):
     df_country =pd.DataFrame(df[(df['Country'] ==country)])
     df_country.drop(['InvoiceDate','UnitPrice','CustomerID','Country','StockCode'],axis=1,inplace=True)
     list_quantity=df_country.groupby(['Description']).sum()
-    product_mare_sale={'product':list_quantity['Quantity'].idxmax()}
-    return product_mare_sale
+    product_more_sale={'product':list_quantity['Quantity'].idxmax()}
+    return product_more_sale
 
 def product_more_sale(df):
     df_product=df.drop(['InvoiceDate','UnitPrice','CustomerID','Country','StockCode'],axis=1)
@@ -31,7 +31,18 @@ def best_client(df):
 
     return best_client
 
+def product_sale_date(df,product,dt_begin,dt_end):
+    df_sale_product=df.drop(['UnitPrice','CustomerID','Country'],axis=1)
+    df_sale_product['InvoiceDate']= pd.to_datetime(df['InvoiceDate'])
+    df_sale_product['InvoiceDate']= df_sale_product['InvoiceDate'].apply(lambda x: x.strftime('%Y-%m-%d'))
+    df_sale_product=pd.DataFrame(df_sale_product[(df_sale_product['StockCode']==product) & ((df_sale_product['InvoiceDate']>=dt_begin) & (df_sale_product['InvoiceDate']<dt_end))])
+    df_sale_product = df_sale_product.groupby('InvoiceDate').sum()
+
+    return df_sale_product
 df_main=treating_csv()
+
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
 print(best_client(df_main))
+print('----------------------------------')
+product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
