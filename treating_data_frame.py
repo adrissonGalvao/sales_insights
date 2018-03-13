@@ -44,22 +44,33 @@ def product_sale_date(df,product,dt_begin,dt_end):
        product_sale_date['Date'].append(x)
     
     for x in products['Quantity']:
-       product_sale_date['Quantity'].append(x)
-
+       product_sale_date['Quantity'].append(str(x))
     return product_sale_date
 
-def generate_graph(value):
-    plt.plot(value,'ro-', label='InvoiceDate')
-    plt.xlabel("X")
-    plt.ylabel("Y")
-    plt.show()
+def percentage_product(df,product):
+    df_product_main=df.drop(['InvoiceDate','UnitPrice','CustomerID','Country'],axis=1)
+
+    df_product = pd.DataFrame(df_product_main[(df_product_main['Description'] ==product)])
+
+    sale_product=df_product['Quantity'].sum()
+
+    product_total =df_product_main['Quantity'].sum()
+    percentage =perc(sale_product,product_total)
+    return percentage
+
+def perc(a,b):
+	if b == 0:
+		return 0
+
+	p = a/b * 100 
+	return round(p,2)
 df_main=treating_csv()
 
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
 print(best_client(df_main))
-teste=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
-generate_graph(teste)
+print(product_sale_date(df_main,'71053','2010-01-01','2010-12-30'))
+print(percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
 
 
 
