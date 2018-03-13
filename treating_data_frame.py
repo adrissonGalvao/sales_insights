@@ -1,5 +1,5 @@
 import pandas as pd
-
+import matplotlib.pyplot as plt
 
 def treating_csv():
     df = pd.read_csv('./data_test.csv')
@@ -36,13 +36,30 @@ def product_sale_date(df,product,dt_begin,dt_end):
     df_sale_product['InvoiceDate']= pd.to_datetime(df['InvoiceDate'])
     df_sale_product['InvoiceDate']= df_sale_product['InvoiceDate'].apply(lambda x: x.strftime('%Y-%m-%d'))
     df_sale_product=pd.DataFrame(df_sale_product[(df_sale_product['StockCode']==product) & ((df_sale_product['InvoiceDate']>=dt_begin) & (df_sale_product['InvoiceDate']<dt_end))])
-    df_sale_product = df_sale_product.groupby(['InvoiceDate','Description','StockCode']).sum()
-    return df_sale_product
+    products=df_sale_product.groupby(['InvoiceDate']).sum().reset_index().rename(columns={0:'count'})
+    
+    product_sale_date={"Quantity":[],"Date":[]}
+    
+    for x in products['InvoiceDate']:
+       product_sale_date['Date'].append(x)
+    
+    for x in products['Quantity']:
+       product_sale_date['Quantity'].append(x)
 
+    return product_sale_date
+
+def generate_graph(value):
+    plt.plot(value,'ro-', label='InvoiceDate')
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.show()
 df_main=treating_csv()
 
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
 print(best_client(df_main))
-print('----------------------------------')
-product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
+teste=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
+generate_graph(teste)
+
+
+
