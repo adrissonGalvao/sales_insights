@@ -64,13 +64,37 @@ def perc(a,b):
 
 	p = a/b * 100 
 	return round(p,2)
+
 df_main=treating_csv()
+
+def percente_product_country(df):
+    df_country = df.groupby(['Country']).sum().reset_index()
+    series_country = df_country['Country']
+    list_countries={}
+    list_sale={}
+
+    for x in series_country:
+        list_countries[x]=pd.DataFrame((df[(df['Country'] ==x)]))
+
+    for x in list_countries:
+        list_countries[x].drop(['Country','StockCode','Description','InvoiceDate','UnitPrice','CustomerID'],axis=1,inplace=True)
+        list_sale[x] = list_countries[x]['Quantity'].sum()
+
+    df_product_main=df.drop(['InvoiceDate','UnitPrice','CustomerID','Country'],axis=1)
+    quantity_total = df_product_main['Quantity'].sum()
+
+    for country in list_sale:
+        list_sale[country]=perc(list_sale[country],quantity_total)
+
+    return list_sale
+
+
 
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
 print(best_client(df_main))
 print(product_sale_date(df_main,'71053','2010-01-01','2010-12-30'))
 print(percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
-
+print(percente_product_country(df_main))
 
 
