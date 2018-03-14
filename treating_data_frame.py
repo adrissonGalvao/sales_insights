@@ -1,8 +1,10 @@
 import pandas as pd
-import matplotlib.pyplot as plt
+from matplotlib import pyplot
+from datetime import datetime
+
 
 def treating_csv():
-    df = pd.read_csv('./data_test.csv')
+    df = pd.read_csv('./data.csv')
     df.drop('InvoiceNo',axis=1,inplace=True)
     df = df[(df['Quantity'] > 0)]
     return df
@@ -38,13 +40,14 @@ def product_sale_date(df,product,dt_begin,dt_end):
     df_sale_product=pd.DataFrame(df_sale_product[(df_sale_product['StockCode']==product) & ((df_sale_product['InvoiceDate']>=dt_begin) & (df_sale_product['InvoiceDate']<dt_end))])
     products=df_sale_product.groupby(['InvoiceDate']).sum().reset_index().rename(columns={0:'count'})
     
-    product_sale_date={"Quantity":[],"Date":[]}
+    product_sale_date={"Quantity":[0],"Date":[0]}
     
     for x in products['InvoiceDate']:
-       product_sale_date['Date'].append(x)
+        product_sale_date['Date'].append(x)
     
     for x in products['Quantity']:
-       product_sale_date['Quantity'].append(str(x))
+       product_sale_date['Quantity'].append(x)
+   
     return product_sale_date
 
 def percentage_product(df,product):
@@ -64,9 +67,7 @@ def perc(a,b):
 
 	p = a/b * 100 
 	return round(p,2)
-
-df_main=treating_csv()
-
+    
 def percente_product_country(df):
     df_country = df.groupby(['Country']).sum().reset_index()
     series_country = df_country['Country']
@@ -88,13 +89,25 @@ def percente_product_country(df):
 
     return list_sale
 
+def generate_graph_sale_date(data):
+    df_graph = pd.DataFrame({'Product':data['Quantity']},index=data['Date'])
 
+    df_graph.plot()
+    pyplot.xlabel("Data")
+    pyplot.grid(True)
+    pyplot.ylabel("Qauntidade Vendida")
+    pyplot.savefig('./graphs/quantity_sale.png')
+
+df_main=treating_csv()
 
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
+
 print(best_client(df_main))
-print(product_sale_date(df_main,'71053','2010-01-01','2010-12-30'))
+
+data=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
+
 print(percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
 print(percente_product_country(df_main))
-
+generate_graph_sale_date(data)
 
