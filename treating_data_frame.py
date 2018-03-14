@@ -88,12 +88,10 @@ def percente_product_country(df):
     for country in list_sale:
         list_sale[country]=perc(list_sale[country],quantity_total)
     list_sale={'list_percent':list_sale,'total':quantity_total}
-    print  (list_sale)
     return list_sale
 
 def generate_graph_sale_date(data):
     df_graph = pd.DataFrame({'Product':data['Quantity']},index=data['Date'])
-
     df_graph.plot()
     pyplot.xlabel("Data")
     pyplot.grid(True)
@@ -108,18 +106,18 @@ def generate_graph_sale_country(data):
         list_graph['index'].append(country)
         list_graph['value'].append(data['list_percent'][country])
 
-    df_graph = pd.Series(list_graph['value'],index=list_graph['index'])
-    df_graph.plot.pie(autopct='%.2f%%', fontsize=15,figsize=(10, 10))
-
-    blue_patch = mpatches.Patch(color='black', label='Sale by product')
+    df_graph = pd.DataFrame({'product':list_graph['value']},index=list_graph['index'])
     red_patch = mpatches.Patch(color='black', label='Total product:'+str(data['total']))
-    
-    pyplot.xlabel("PERCENTAGE OF SALE BY COUNTRY")
-    pyplot.legend(handles=[red_patch,blue_patch])
-    pyplot.ylabel("")
-    
+    red_1patch = mpatches.Patch(color='black', label='Total product:'+str(data['total']))
+    pyplot.ylabel("PERCENTAGE OF SALE BY COUNTRY")
+    pyplot.legend(handles=[red_patch,red_1patch])
+    df_graph.plot.bar(figsize=[15,17])
     pyplot.savefig('./graphs/percente_sale_by_country')
 
+def price_max_and_min(df,product):
+    df_max_min =pd.DataFrame(df[(df['Description'])==product])
+    list_price ={'price_max':df_max_min['UnitPrice'].min(),'price_min':df_max_min['UnitPrice'].max()}
+    return list_price
 
 df_main=treating_csv()
 
@@ -131,3 +129,4 @@ data_sale_product=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
 data_sale_country = percente_product_country(df_main)
 generate_graph_sale_date(data_sale_product)
 generate_graph_sale_country(data_sale_country)
+price_max_and_min(df_main,'RED TOADSTOOL LED NIGHT LIGHT')
