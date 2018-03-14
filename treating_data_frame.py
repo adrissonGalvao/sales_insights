@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def treating_csv():
-    df = pd.read_csv('./data.csv')
+    df = pd.read_csv('./data_test.csv')
     df.drop('InvoiceNo',axis=1,inplace=True)
     df = df[(df['Quantity'] > 0)]
     return df
@@ -98,16 +98,25 @@ def generate_graph_sale_date(data):
     pyplot.ylabel("Qauntidade Vendida")
     pyplot.savefig('./graphs/quantity_sale.png')
 
+def generate_graph_sale_country(data):
+    list_graph={'index':[],'value':[]}
+    for country in data:
+        list_graph['index'].append(country)
+        list_graph['value'].append(data[country])
+    df_graph = pd.Series(list_graph['value'],index=list_graph['index'])
+    df_graph.plot.pie(autopct='%.2f%%', fontsize=15,figsize=(10, 10))
+    pyplot.xlabel("PERCENTAGE OF SALE BY COUNTRY")
+    pyplot.ylabel("")
+    pyplot.savefig('./graphs/percente_sale_by_country')
+
+
 df_main=treating_csv()
 
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
-
 print(best_client(df_main))
-
-data=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
-
+data_sale_product=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
 print(percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
-print(percente_product_country(df_main))
-generate_graph_sale_date(data)
-
+data_sale_country = percente_product_country(df_main)
+generate_graph_sale_date(data_sale_product)
+generate_graph_sale_country(data_sale_country)
