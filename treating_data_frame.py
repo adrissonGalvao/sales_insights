@@ -1,5 +1,6 @@
 import pandas as pd
 from matplotlib import pyplot
+import matplotlib.patches as mpatches
 from datetime import datetime
 
 
@@ -86,7 +87,8 @@ def percente_product_country(df):
 
     for country in list_sale:
         list_sale[country]=perc(list_sale[country],quantity_total)
-
+    list_sale={'list_percent':list_sale,'total':quantity_total}
+    print  (list_sale)
     return list_sale
 
 def generate_graph_sale_date(data):
@@ -99,14 +101,23 @@ def generate_graph_sale_date(data):
     pyplot.savefig('./graphs/quantity_sale.png')
 
 def generate_graph_sale_country(data):
+
     list_graph={'index':[],'value':[]}
-    for country in data:
+
+    for country in data['list_percent']:
         list_graph['index'].append(country)
-        list_graph['value'].append(data[country])
+        list_graph['value'].append(data['list_percent'][country])
+
     df_graph = pd.Series(list_graph['value'],index=list_graph['index'])
     df_graph.plot.pie(autopct='%.2f%%', fontsize=15,figsize=(10, 10))
+
+    blue_patch = mpatches.Patch(color='black', label='Sale by product')
+    red_patch = mpatches.Patch(color='black', label='Total product:'+str(data['total']))
+    
     pyplot.xlabel("PERCENTAGE OF SALE BY COUNTRY")
+    pyplot.legend(handles=[red_patch,blue_patch])
     pyplot.ylabel("")
+    
     pyplot.savefig('./graphs/percente_sale_by_country')
 
 
@@ -115,8 +126,8 @@ df_main=treating_csv()
 print(product_more_sale_country(df_main,"United Kingdom"))
 print(product_more_sale(df_main))
 print(best_client(df_main))
-data_sale_product=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
 print(percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
+data_sale_product=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
 data_sale_country = percente_product_country(df_main)
 generate_graph_sale_date(data_sale_product)
 generate_graph_sale_country(data_sale_country)
