@@ -2,10 +2,10 @@ import pandas as pd
 from matplotlib import pyplot
 import matplotlib.patches as mpatches
 from datetime import datetime
-
+import graphic 
 
 def treating_csv():
-    df = pd.read_csv('./data.csv')
+    df = pd.read_csv('./data_test.csv')
     df.drop('InvoiceNo',axis=1,inplace=True)
     df = df[(df['Quantity'] > 0)]
     return df
@@ -90,27 +90,6 @@ def percent_product_country(df):
     list_sale={'list_percent':list_sale,'total':quantity_total}
     return list_sale
 
-def generate_graphic_sale_date(data):
-    df_graphic = pd.DataFrame({'Product':data['Quantity']},index=data['Date'])
-    df_graphic.plot()
-    pyplot.xlabel("Data")
-    pyplot.grid(True)
-    pyplot.ylabel("Qauntidade Vendida")
-    pyplot.savefig('./graphics/quantity_sale.png')
-
-def generate_graphic_sale_country(data):
-
-    list_graphic={'index':[],'value':[]}
-
-    for country in data['list_percent']:
-        list_graphic['index'].append(country)
-        list_graphic['value'].append(data['list_percent'][country])
-
-    df_graphic = pd.DataFrame({'product':list_graphic['value']},index=list_graphic['index'])
-    pyplot.ylabel("PERCENTAGE OF SALE BY COUNTRY")
-    df_graphic.plot.bar(figsize=[15,17])
-    pyplot.savefig('./graphics/percent_sale_by_country')
-
 def price_max_and_min(df,product):
     df_max_min =pd.DataFrame(df[(df['Description'])==product])
     list_price ={'price_max':df_max_min['UnitPrice'].min(),'price_min':df_max_min['UnitPrice'].max()}
@@ -132,27 +111,3 @@ def price_and_quantity_sale_product(df,product):
 
     return list_products
 
-def generate_graphic_sale_product(data):
-    df_graphic = pd.DataFrame({'Product':data['quantity']},index=data['price'])
-    df_graphic.plot()
-    pyplot.xlabel("Price by product")
-    pyplot.ylabel("Qauntidade Vendida")
-    pyplot.grid(True)
-    pyplot.savefig('./graphics/generate_graphic_sale_product.png')
-
-df_main=treating_csv()
-
-print(product_more_sale_country(df_main,"United Kingdom"))
-print(product_more_sale(df_main))
-print(best_client(df_main))
-print(price_max_and_min(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
-print(percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
-
-data_sale_product=product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
-data_sale_country = percent_product_country(df_main)
-data_price_sale=price_and_quantity_sale_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT') 
-
-generate_graphic_sale_date(data_sale_product)
-generate_graphic_sale_country(data_sale_country)
-generate_graphic_sale_product(data_price_sale)
-   
