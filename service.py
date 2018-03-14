@@ -20,13 +20,23 @@ class Service:
         json_data = json.dumps(best_client,indent=4, separators=(',', ' : '), sort_keys=True)
         return json_data
 
+    def price_max_and_min(self,product):
+        variation_price = insights.price_max_and_min(self.df_main,product)
+        json_data = json.dumps(variation_price,indent=4, separators=(',', ' : '), sort_keys=True)
+        return json_data
+
+    def percentage_product(self,product):
+        percentage_product= insights.percentage_product(self.df_main,product)
+        percentage_product= {'percentage':percentage_product,'product':product}
+        json_data = json.dumps(percentage_product,indent=4, separators=(',', ' : '), sort_keys=True)
+        return json_data
+
 service=Service()
 df_main =service.df_main 
-#print(service.product_more_sale_country("United Kingdom"))
-#print(insights.product_more_sale(df_main))
+print(service.product_more_sale_country("United Kingdom"))
 print(service.best_client())
-#print(insights.price_max_and_min(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
-#print(insights.percentage_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT'))
+print(service.price_max_and_min('RED TOADSTOOL LED NIGHT LIGHT'))
+print(service.percentage_product('RED TOADSTOOL LED NIGHT LIGHT'))
 
 #data_sale_product=insights.product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
 #data_sale_country = insights.percent_product_country(df_main)
