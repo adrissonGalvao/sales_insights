@@ -44,10 +44,6 @@ class Service:
 
 service=Service()
 df_main =service.df_main 
-print(service.product_more_sale_country("United Kingdom"))
-print(service.best_client())
-print(service.price_max_and_min('RED TOADSTOOL LED NIGHT LIGHT'))
-print(service.percentage_product('RED TOADSTOOL LED NIGHT LIGHT'))
 service.generate_graphic_sale_date('71053','2010-01-01','2010-12-30')
 service.generate_graphic_sale_country()
 service.generate_graphic_sale_product('RED TOADSTOOL LED NIGHT LIGHT')
