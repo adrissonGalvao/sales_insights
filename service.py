@@ -12,7 +12,7 @@ class Service:
         return json_data
     
     def best_client(self):
-        best_client= insights.best_client(df_main)
+        best_client= insights.best_client(self.df_main)
 
         best_client['bigger_quantity']['value_sale']=str(best_client['bigger_quantity']['value_sale'])
         best_client['bigger_price']['value_sale']=str(best_client['bigger_price']['value_sale'])
@@ -39,13 +39,7 @@ class Service:
         graphic.generate_graphic_sale_country(data_sale_country)
 
     def generate_graphic_sale_product(self,product):
-        data_price_sale=insights.price_and_quantity_sale_product(df_main,product)
+        data_price_sale=insights.price_and_quantity_sale_product(self.df_main,product)
         graphic.generate_graphic_sale_product(data_price_sale)
-
-service=Service()
-df_main =service.df_main 
-service.generate_graphic_sale_date('71053','2010-01-01','2010-12-30')
-service.generate_graphic_sale_country()
-service.generate_graphic_sale_product('RED TOADSTOOL LED NIGHT LIGHT')
 
    

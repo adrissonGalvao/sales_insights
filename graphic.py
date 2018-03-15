@@ -6,9 +6,9 @@ def generate_graphic_sale_product(data):
     df_graphic = pd.DataFrame({'Product':data['quantity']},index=data['price'])
     df_graphic.plot()
     pyplot.xlabel("Price by product")
-    pyplot.ylabel("Qauntidade Vendida")
+    pyplot.ylabel("Amount Sale")
     pyplot.grid(True)
-    pyplot.savefig('./graphics/generate_graphic_sale_product.png')
+    pyplot.savefig('./static/graphics/generate_graphic_sale_product.png')
 
 def generate_graphic_sale_country(data):
 
@@ -21,12 +21,12 @@ def generate_graphic_sale_country(data):
     df_graphic = pd.DataFrame({'product':list_graphic['value']},index=list_graphic['index'])
     pyplot.ylabel("PERCENTAGE OF SALE BY COUNTRY")
     df_graphic.plot.bar(figsize=[15,17])
-    pyplot.savefig('./graphics/percent_sale_by_country')
+    pyplot.savefig('./static/graphics/percent_sale_by_country.png')
 
 def generate_graphic_sale_date(data):
-    df_graphic = pd.DataFrame({'Product':data['Quantity']},index=data['Date'])
+    df_graphic = pd.DataFrame({'Sale':data['Quantity']},index=data['Date'])
     df_graphic.plot()
-    pyplot.xlabel("Data")
+    pyplot.xlabel("Date")
     pyplot.grid(True)
-    pyplot.ylabel("Qauntidade Vendida")
-    pyplot.savefig('./graphics/quantity_sale.png')
+    pyplot.ylabel("Amount Sale")
+    pyplot.savefig('./static/graphics/quantity_sale.png')

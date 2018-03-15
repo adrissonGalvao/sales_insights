@@ -26,5 +26,18 @@ class ApiTests(unittest.TestCase):
     def test_percentage_product(self):
         response = self.app.get('/product/percentage/RED TOADSTOOL LED NIGHT LIGHT')
         self.assertEqual(response.status,"200 OK")
+
+    def test_generate_graphic_sale_date(self):
+        response = self.app.get('/product/generate_graphic/data?begin=2010-01-01&end=2010-12-30&product=71053')
+        self.assertEqual(response.status,"200 OK")
+
+    def test_generate_graphic_sale_country(self):
+        response = self.app.get('/product/generate_graphic_sale_country/')
+        self.assertEqual(response.status,"200 OK")
+    
+    def test_generate_graphic_sale_product(self):
+        response = self.app.get('/product/generate_graphic_sale_product/RED TOADSTOOL LED NIGHT LIGHT')
+        self.assertEqual(response.status,"200 OK")
+
 if __name__ == "__main__":
     unittest.main()
