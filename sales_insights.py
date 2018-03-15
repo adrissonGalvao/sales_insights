@@ -5,7 +5,7 @@ from datetime import datetime
 import graphic 
 
 def treating_csv():
-    df = pd.read_csv('./data.csv')
+    df = pd.read_csv('./data_test.csv')
     df.drop('InvoiceNo',axis=1,inplace=True)
     df = df[(df['Quantity'] > 0)]
     return df

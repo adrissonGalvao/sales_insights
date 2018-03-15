@@ -33,6 +33,15 @@ class Service:
     def generate_graphic_sale_date(self,product_id,dt_begin,dt_end):
         data_sale_product=insights.product_sale_date(self.df_main,product_id,dt_begin,dt_end)
         graphic.generate_graphic_sale_date(data_sale_product)
+    
+    def generate_graphic_sale_country(self):
+        data_sale_country = insights.percent_product_country(self.df_main)
+        graphic.generate_graphic_sale_country(data_sale_country)
+
+    def generate_graphic_sale_product(self,product):
+        data_price_sale=insights.price_and_quantity_sale_product(df_main,product)
+        graphic.generate_graphic_sale_product(data_price_sale)
+
 service=Service()
 df_main =service.df_main 
 print(service.product_more_sale_country("United Kingdom"))
@@ -40,11 +49,7 @@ print(service.best_client())
 print(service.price_max_and_min('RED TOADSTOOL LED NIGHT LIGHT'))
 print(service.percentage_product('RED TOADSTOOL LED NIGHT LIGHT'))
 service.generate_graphic_sale_date('71053','2010-01-01','2010-12-30')
-#data_sale_product=insights.product_sale_date(df_main,'71053','2010-01-01','2010-12-30')
-#data_sale_country = insights.percent_product_country(df_main)
-#data_price_sale=insights.price_and_quantity_sale_product(df_main,'RED TOADSTOOL LED NIGHT LIGHT') 
+service.generate_graphic_sale_country()
+service.generate_graphic_sale_product('RED TOADSTOOL LED NIGHT LIGHT')
 
-#graphic.generate_graphic_sale_date(data_sale_product)
-#graphic.generate_graphic_sale_country(data_sale_country)
-#graphic.generate_graphic_sale_product(data_price_sale)
    
