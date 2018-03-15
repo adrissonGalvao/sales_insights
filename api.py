@@ -7,6 +7,7 @@ import service as serv
 
 app = Flask(__name__)
 service = serv.Service()
+
 @app.route("/")
 def hello():
     return "Hello World!" 
@@ -38,5 +39,6 @@ def percentage_product(product):
         abort(400, 'INVALID PARAMETERS')
     result = service.percentage_product(product)
     return result
+
 if __name__ == "__main__":
     app.run()
