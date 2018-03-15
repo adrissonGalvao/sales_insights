@@ -48,6 +48,12 @@ def price_max_and_min(product):
     result = service.price_max_and_min(product)
     return result
 
+@app.route("/product/product_more_sale_world/")
+def product_more_sale_world():
+    result = service.product_more_sale_world()
+    return result
+
+
 @app.route("/product/percentage/<product>")
 def percentage_product(product):
     if product==None:

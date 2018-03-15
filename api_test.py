@@ -39,5 +39,8 @@ class ApiTests(unittest.TestCase):
         response = self.app.get('/product/generate_graphic_sale_product/RED TOADSTOOL LED NIGHT LIGHT')
         self.assertEqual(response.status,"200 OK")
 
+    def test_product_more_sale_world(self):
+        response = self.app.get('/product/product_more_sale_world/')
+        self.assertEqual(response.status,"200 OK")
 if __name__ == "__main__":
     unittest.main()

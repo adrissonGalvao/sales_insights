@@ -9,8 +9,15 @@ class Service:
     def product_more_sale_country(self,product):
         product_more_sale = insights.product_more_sale_country(self.df_main,product)
         json_data = json.dumps(product_more_sale, indent=4, separators=(',', ' : '), sort_keys=True)
+       
         return json_data
     
+    def product_more_sale_world(self):
+        product_more_sale_world = insights.product_more_sale(self.df_main)
+        json_data = json.dumps(product_more_sale_world, indent=4, separators=(',', ' : '), sort_keys=True)
+        print(json_data)
+        return json_data
+
     def best_client(self):
         best_client= insights.best_client(self.df_main)
 
@@ -41,5 +48,3 @@ class Service:
     def generate_graphic_sale_product(self,product):
         data_price_sale=insights.price_and_quantity_sale_product(self.df_main,product)
         graphic.generate_graphic_sale_product(data_price_sale)
-
-   
