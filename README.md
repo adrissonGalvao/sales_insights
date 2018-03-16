@@ -11,5 +11,5 @@ Showing:
 	The percentage of sale of a product;
 	Generate the graphic sales chart for a stipulated product by date
 	Generate percentage of sales by country graphic
-	Generate graphic that shows the selling verdict in relation to the price.
+	Generate graphic that show the variation between sale and price.
 ```
